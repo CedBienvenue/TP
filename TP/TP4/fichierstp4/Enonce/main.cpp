@@ -1,3 +1,6 @@
+// Nom : Cédrik Bienvenue
+
+
 /********************************************
 * Titre: Travail pratique #4 - main.cpp
 * Date: 19 octobre 2018
