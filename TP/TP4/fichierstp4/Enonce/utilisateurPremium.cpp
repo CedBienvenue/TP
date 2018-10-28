@@ -19,3 +19,7 @@ unsigned int UtilisateurPremium::getJoursRestants() const {
 void UtilisateurPremium::setJoursRestants(unsigned int joursRestants) {
 	joursRestants_ = joursRestants;
 }
+
+void UtilisateurPremium::print(ostream& os) const{
+	os << "";
+}

@@ -18,3 +18,7 @@ bool UtilisateurRegulier::getPossedeGroupe() const {
 void UtilisateurRegulier::setPossedeGroupe(bool possedeGroupe) {
 	possedeGroupe_ = possedeGroupe;
 }
+
+void UtilisateurRegulier::print(ostream& os) const {
+	os << "";
+}

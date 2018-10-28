@@ -94,3 +94,8 @@ ostream& operator<<(ostream& os, const Utilisateur& utilisateur)
 	utilisateur.print(os);
 	return os;
 }
+
+void Utilisateur::print(ostream& os) const {
+	os << "";
+}
+
