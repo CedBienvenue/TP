@@ -53,6 +53,10 @@ void Groupe::setNom(const string& nom) {
 	nom_ = nom;
 }
 
+Groupe& Groupe::ajouterDepense(double montant, Utilisateur* payePar, const string& nom = "", const string& lieu = "Montreal") {
+	return *this;
+}
+
 void Groupe::equilibrerComptes() {
 
 	bool calcul = true;
@@ -97,6 +101,18 @@ void Groupe::equilibrerComptes() {
 		}
 	}
 
+}
+
+Groupe& Groupe::operator+=(Utilisateur* utilisateur) {
+	if (typeid(utilisateur) == typeid(UtilisateurPremium) && static_cast<UtilisateurPremium*>(utilisateur)->getJoursRestants() != 0)
+	{
+		utilisateurs_.push_back(utilisateur);
+	}
+	if (typeid(utilisateur) == typeid(UtilisateurRegulier) && static_cast<UtilisateurRegulier*>(utilisateur)->getPossedeGroupe() == false)
+	{
+		utilisateurs_.push_back(utilisateur);
+	}
+	return *this;
 }
 
 // Methode d'affichage

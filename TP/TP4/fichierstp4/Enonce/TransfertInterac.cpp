@@ -20,3 +20,7 @@ void TransfertInterac::setcourriel(string courriel)
 {
 	courriel_ = courriel;
 }
+
+double TransfertInterac::getFraisTransfert() const {
+	
+}

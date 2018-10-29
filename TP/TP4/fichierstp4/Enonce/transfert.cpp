@@ -27,6 +27,10 @@ Utilisateur* Transfert::getReceveur() const {
 	return receveur_;
 }
 
+double Transfert::getFraisTransfert() const {
+	return 0.0;
+}
+
 // Methodes de modifications
 void Transfert::setMontant(double montant) {
 	montant_ = montant;
@@ -38,6 +42,10 @@ void Transfert::setExpediteur(Utilisateur *donneur) {
 
 void Transfert::setReceveur(Utilisateur *receveur) {
 	receveur_ = receveur;
+}
+
+void Transfert::effectuerTransfert() {
+	
 }
 
 //Methode affichage

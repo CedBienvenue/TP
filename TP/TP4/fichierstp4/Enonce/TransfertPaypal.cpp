@@ -16,6 +16,10 @@ string TransfertPaypal::getId() const
 	return id_;
 }
 
+double TransfertPaypal::getFraisTransfert() const{
+
+}
+
 void TransfertPaypal::setId(string id)
 {
 	id_ = id;

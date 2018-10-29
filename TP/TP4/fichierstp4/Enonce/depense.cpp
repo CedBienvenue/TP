@@ -12,6 +12,10 @@ Depense::Depense(const string& nom, double montant, const string& lieu) : nom_(n
 	lieu_ = new string(lieu);
 }
 
+// Constructeur par copie
+Depense::Depense(const Depense& depense) : nom_(depense.nom_), montant_(depense.montant_), lieu_(nullptr){
+	lieu_ = new string(*(depense.lieu_));
+}
 
 // Methodes d'acces
 string Depense::getNom() const {
@@ -40,6 +44,19 @@ void Depense::setLieu(const string& nom)
 {
 	*lieu_ = nom;
 }
+
+// Opérateur =
+Depense& Depense::operator=(const Depense& depense) {
+	if (this != &depense)
+	{
+		delete lieu_;
+		lieu_ = new string(*(depense.lieu_));
+		nom_ = depense.nom_;
+		montant_ = depense.montant_;
+	}
+	return *this;
+}
+
 
 // Methode d'affichage
 ostream & operator<<(ostream& os, const Depense& depense)

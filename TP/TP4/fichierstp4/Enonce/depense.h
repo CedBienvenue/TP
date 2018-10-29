@@ -17,6 +17,7 @@ public:
 	// Constructeurs
 	// TODO
 	Depense(const string& nom = "", double montant = 0 , const string& lieu = "Montreal");
+	Depense(const Depense& depense);
 
 	// Methodes d'acces
 	string getNom() const;
@@ -27,6 +28,9 @@ public:
 	void setNom(const string& nom);
 	void setMontant(double montant);
 	void setLieu(const string& lieu);
+
+	// Operateur
+	Depense& operator=(const Depense& depense);
 
 	// Affichage
 	friend ostream& operator<<(ostream& os, const Depense& depense);
