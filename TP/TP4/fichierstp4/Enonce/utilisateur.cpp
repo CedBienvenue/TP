@@ -94,15 +94,13 @@ ostream& operator<<(ostream& os, const Utilisateur& utilisateur)
 	utilisateur.print(os);
 	for (unsigned int i = 0; i < utilisateur.depenses_.size(); i++)
 	{
+		os << "\t\t Depenses: " << endl;
 		os << "\t\t\t " << *utilisateur.depenses_[i];
 	}
 	return os;
 }
 
 void Utilisateur::print(ostream& os) const {
-	os << "Utilisateur (" << NULL << ") " << getNom() << " :" << endl;
-	os << "\t\t Total a payer: " << getTotalATransferer() << "$ (" << 
-		getBalance() << "$ economises)" << endl;
 
 }
 

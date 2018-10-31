@@ -104,13 +104,21 @@ void Groupe::equilibrerComptes() {
 }
 
 Groupe& Groupe::operator+=(Utilisateur* utilisateur) {
-	if (typeid(utilisateur) == typeid(UtilisateurPremium) && static_cast<UtilisateurPremium*>(utilisateur)->getJoursRestants() != 0)
+	if (typeid(utilisateur) == typeid(UtilisateurPremium) && dynamic_cast<UtilisateurPremium*>(utilisateur)->getJoursRestants() != 0)
 	{
 		utilisateurs_.push_back(utilisateur);
 	}
-	if (typeid(utilisateur) == typeid(UtilisateurRegulier) && static_cast<UtilisateurRegulier*>(utilisateur)->getPossedeGroupe() == false)
+	else
+	{
+		cout << "ERREUR : L'utilisateur " << utilisateur->getNom() << " doit renouveler son abonnement premium." << endl;
+	}
+	if (typeid(utilisateur) == typeid(UtilisateurRegulier) && dynamic_cast<UtilisateurRegulier*>(utilisateur)->getPossedeGroupe() == false)
 	{
 		utilisateurs_.push_back(utilisateur);
+	}
+	else
+	{
+		cout << "ERREUR : L'utilisateur " << utilisateur->getNom() << " n'est pas un utilisateur premium et est deja dans un groupe." << endl;
 	}
 	return *this;
 }

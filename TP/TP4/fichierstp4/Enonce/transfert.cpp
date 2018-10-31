@@ -50,4 +50,8 @@ void Transfert::effectuerTransfert() {
 
 //Methode affichage
 ostream& operator<<(ostream& os, const Transfert& transfert) {
+	os << transfert.getExpediteur() << "\t -> " << transfert.getReceveur() <<
+		"\t : " << transfert.getMontant() << "$" << endl;
+
+	return os;
 }
