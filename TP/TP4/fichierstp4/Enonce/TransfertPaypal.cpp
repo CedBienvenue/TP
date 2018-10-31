@@ -17,13 +17,7 @@ string TransfertPaypal::getId() const
 }
 
 double TransfertPaypal::getFraisTransfert() const{
-	if (typeid(getExpediteur()) != typeid(UtilisateurPremium))
-	{
-		double montantFrais = (getMontant() * COMMISSION) + FRAIS;
-		getExpediteur()->modifierBalanceFrais(montantFrais);
-	}
-	double montantRemise = -(getMontant() * 0.03);
-	getExpediteur()->modifierBalanceFrais(montantRemise);
+	return (getMontant() * COMMISSION) + FRAIS;
 }
 
 void TransfertPaypal::setId(string id)

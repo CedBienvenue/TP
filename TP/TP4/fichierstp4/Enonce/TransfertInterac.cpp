@@ -22,8 +22,5 @@ void TransfertInterac::setcourriel(string courriel)
 }
 
 double TransfertInterac::getFraisTransfert() const {
-	if (typeid(getExpediteur()) != typeid(UtilisateurPremium))
-	{
-		getExpediteur()->modifierBalanceFrais(FRAIS_TRANSFERT);
-	}
+	return FRAIS_TRANSFERT;
 }

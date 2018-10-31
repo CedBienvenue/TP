@@ -54,6 +54,30 @@ void Groupe::setNom(const string& nom) {
 }
 
 Groupe& Groupe::ajouterDepense(double montant, Utilisateur* payePar, const string& nom = "", const string& lieu = "Montreal") {
+	
+	for (unsigned int i = 0; i < utilisateurs_.size(); i++)
+	{
+		if (payePar == utilisateurs_[i])
+		{
+			depenses_.push_back(new Depense(nom, montant, lieu));
+		}
+		else
+		{
+			cout << "ERREUR : L'utilisateur " << payePar->getNom() << " ne fait pas partie du groupe ." << endl;
+		}
+	}
+
+	double montantParUtilisateur = montant / utilisateurs_.size();
+
+	for (unsigned int i = 0; i < utilisateurs_.size(); i++)
+	{
+		if (payePar == utilisateurs_[i])
+		{
+			comptes_[i] -= (montant - montantParUtilisateur);
+		}
+		comptes_[i] += montantParUtilisateur;
+	}
+	
 	return *this;
 }
 
@@ -61,6 +85,7 @@ void Groupe::equilibrerComptes() {
 
 	bool calcul = true;
 	int count = 0;
+	int indexTransfert = 0;
 	while (calcul) {
 		double max = 0;
 		double min = 0;
@@ -82,15 +107,36 @@ void Groupe::equilibrerComptes() {
 		// On cherche lequel des deux a la dette la plus grande
 		if (-min <= max && min != 0 && max != 0) {
 			// Faire le transfert  du bon type
+			if (utilisateurs_[indexMax]->getMethodePaiement() == Paypal)
+			{
+				transferts_.push_back(new TransfertPaypal(min, utilisateurs_[indexMax], utilisateurs_[indexMin]));
+			}
+			else
+			{
+				transferts_.push_back(new TransfertInterac(min, utilisateurs_[indexMax], utilisateurs_[indexMin]));
+			}
 			comptes_[indexMax] += min;
 			comptes_[indexMin] = 0;
 		}
 		else if (-min > max  && min != 0 && max != 0) {
 			// Faire le transfert du bon type
+			if (utilisateurs_[indexMax]->getMethodePaiement() == Paypal)
+			{
+				transferts_.push_back(new TransfertPaypal(max, utilisateurs_[indexMin], utilisateurs_[indexMax]));
+			}
+			else
+			{
+				transferts_.push_back(new TransfertInterac(max, utilisateurs_[indexMin], utilisateurs_[indexMax]));
+			}
 			comptes_[indexMax] = 0;
 			comptes_[indexMin] += max;
 		}
 
+		// Appel de la méthode effectuer transfert pour mettre à jour la balance des frais et des transferts.
+		transferts_[indexTransfert]->effectuerTransfert();
+		// Incrémentation de l'index du vecteur transfert.
+		indexTransfert++;
+		
 		// On incremente le nombre de comptes mis a 0
 		count++;
 		if (-min == max) {
