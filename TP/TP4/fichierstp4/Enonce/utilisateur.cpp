@@ -92,9 +92,9 @@ Utilisateur& Utilisateur::operator+=(Depense* depense) {
 ostream& operator<<(ostream& os, const Utilisateur& utilisateur)
 {
 	utilisateur.print(os);
+	os << "\t\t Depenses: " << endl;
 	for (unsigned int i = 0; i < utilisateur.depenses_.size(); i++)
 	{
-		os << "\t\t Depenses: " << endl;
 		os << "\t\t\t " << *utilisateur.depenses_[i];
 	}
 	return os;

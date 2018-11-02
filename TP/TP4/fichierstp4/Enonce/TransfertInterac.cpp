@@ -9,6 +9,7 @@
 TransfertInterac::TransfertInterac(double montant, Utilisateur* expediteur, Utilisateur* receveur)
 	: Transfert(montant, expediteur, receveur)
 {
+	courriel_ = receveur->getCourriel();
 }
 
 string TransfertInterac::getCourriel() const
@@ -22,5 +23,13 @@ void TransfertInterac::setcourriel(string courriel)
 }
 
 double TransfertInterac::getFraisTransfert() const {
-	return FRAIS_TRANSFERT;
+	UtilisateurPremium* userPremium = dynamic_cast<UtilisateurPremium*>(getExpediteur());
+	if (userPremium)
+	{
+		return -(getMontant() * 0.03);
+	}
+	else
+	{
+		return FRAIS_TRANSFERT;
+	}
 }

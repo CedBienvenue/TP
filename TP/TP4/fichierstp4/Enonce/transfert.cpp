@@ -28,11 +28,7 @@ Utilisateur* Transfert::getReceveur() const {
 }
 
 double Transfert::getFraisTransfert() const {
-	if (typeid(getExpediteur()) != typeid(UtilisateurPremium))
-	{
-		return getFraisTransfert();
-	}
-	return (getMontant() * 0.03);
+	return 0.0;
 }
 
 // Methodes de modifications
@@ -57,7 +53,7 @@ void Transfert::effectuerTransfert() {
 
 //Methode affichage
 ostream& operator<<(ostream& os, const Transfert& transfert) {
-	os << transfert.getExpediteur() << "\t -> " << transfert.getReceveur() <<
+	os << transfert.getExpediteur()->getNom() << "\t -> " << transfert.getReceveur()->getNom() <<
 		"\t : " << transfert.getMontant() << "$" << endl;
 	return os;
 }

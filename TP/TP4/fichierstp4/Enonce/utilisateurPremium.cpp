@@ -21,8 +21,8 @@ void UtilisateurPremium::setJoursRestants(unsigned int joursRestants) {
 }
 
 void UtilisateurPremium::print(ostream& os) const{
-	os << "Utilisateur (Premium)" << getNom() << " :" << endl;
+	os << "Utilisateur (Premium) " << getNom() << " :" << endl;
 	os << "\t\t Total a payer: " << getTotalATransferer() << "$ (" <<
 		getBalance() << "$ economises)" << endl;
-	os << "Jours restants: " << getJoursRestants() << endl;
+	os << "\t\t Jours restants: " << getJoursRestants() << endl;
 }
