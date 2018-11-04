@@ -1,3 +1,11 @@
+/*
+	Fichier : transfert.cpp
+
+	Fait par :  Cedrik Bienvenue (1894296)
+				Mohamed Khairallah Gharbi (1837067)
+	Date de derniere modification : 4 novembre 2018
+*/
+
 /********************************************
 * Titre: Travail pratique #4 - transfert.cpp
 * Date: 19 octobre 2018
@@ -45,6 +53,7 @@ void Transfert::setReceveur(Utilisateur *receveur) {
 	receveur_ = receveur;
 }
 
+// Methode qui modifie la balance transfert et frais des receveurs et expediteurs lors d'un transfert.
 void Transfert::effectuerTransfert() {
 	getReceveur()->modifierBalanceTranferts(-(getMontant()));
 	getExpediteur()->modifierBalanceTranferts(getMontant());

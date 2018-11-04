@@ -1,3 +1,11 @@
+/*
+	Fichier : groupe.cpp
+
+	Fait par :  Cedrik Bienvenue (1894296)
+				Mohamed Khairallah Gharbi (1837067)
+	Date de derniere modification : 4 novembre 2018
+*/
+
 /********************************************
 * Titre: Travail pratique #4 - groupe.cpp
 * Date: 19 octobre 2018
@@ -76,16 +84,21 @@ void Groupe::setNom(const string& nom) {
 	nom_ = nom;
 }
 
+// Methode qui permet d'ajouter une dépense au groupe et à l'utilisateur. Aussi, elle permet de mettre à jour les comptes de chaques utilisateurs. 
+
 Groupe& Groupe::ajouterDepense(double montant, Utilisateur* payePar, const string& nom, const string& lieu) {
 	
 	bool payeParPresent = false;
 
+	// Vérification si l'utilisateur payePar est bien dans le groupe.
 	for (unsigned int i = 0; i < utilisateurs_.size() ; i++)
 	{
 		if (payePar->getNom() == utilisateurs_[i]->getNom())
 		{
 			Depense* depense = new Depense(nom, montant, lieu);
+			// Ajout dépense au groupe
 			depenses_.push_back(depense);
+			// Ajout dépense à l'utilisateur
 			*payePar += depense;
 			payeParPresent = true;
 		}
@@ -94,6 +107,7 @@ Groupe& Groupe::ajouterDepense(double montant, Utilisateur* payePar, const strin
 	{
 		double montantParUtilisateur = montant / utilisateurs_.size();
 
+		// Initialisation des comptes à zéro pour par la suite incrémenter
 		if (comptes_.size() != utilisateurs_.size())
 		{
 			for (unsigned int i = 0; i < utilisateurs_.size(); i++)
@@ -102,6 +116,7 @@ Groupe& Groupe::ajouterDepense(double montant, Utilisateur* payePar, const strin
 			}
 		}
 
+		// Incrementation des comptes utilisateurs.
 		for (unsigned int i = 0; i < utilisateurs_.size(); i++)
 		{
 			if (payePar == utilisateurs_[i])
@@ -168,7 +183,7 @@ void Groupe::equilibrerComptes() {
 			comptes_[indexMin] += max;
 		}
 
-		// Appel de la m�thode effectuer transfert pour mettre � jour la balance des frais et des transferts.
+		// Appel de la methode effectuer transfert pour mettre a jour la balance des frais et des transferts.
 		transferts_[indexTransfert]->effectuerTransfert();
 		// Incrementation de l'index du vecteur transfert.
 		indexTransfert++;
@@ -189,8 +204,10 @@ Groupe& Groupe::operator+=(Utilisateur* utilisateur) {
 
 	UtilisateurPremium* userPremium = dynamic_cast<UtilisateurPremium*>(utilisateur);
 	UtilisateurRegulier* userRegulier = dynamic_cast<UtilisateurRegulier*>(utilisateur);
+	// Verification du type d'utilisateur
 	if (userPremium)
 	{
+		// Verification si l'abonnement est toujours valide.
 		if (userPremium->getJoursRestants() != 0)
 		{
 			utilisateurs_.push_back(utilisateur);
@@ -202,6 +219,7 @@ Groupe& Groupe::operator+=(Utilisateur* utilisateur) {
 	}
 	else
 	{
+		// Verification si l'utilisateur regulier appartient à un groupe
 		if (userRegulier->getPossedeGroupe() == false)
 		{
 			utilisateurs_.push_back(utilisateur);

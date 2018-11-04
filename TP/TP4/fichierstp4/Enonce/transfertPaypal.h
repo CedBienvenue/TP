@@ -1,3 +1,11 @@
+/*
+	Fichier : transfertPaypal.h
+
+	Fait par :  Cedrik Bienvenue (1894296)
+				Mohamed Khairallah Gharbi (1837067)
+	Date de derniere modification : 4 novembre 2018
+*/
+
 /********************************************
 * Titre: Travail pratique #4 - transfertPaypal.h
 * Date: 19 octobre 2018

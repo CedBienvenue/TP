@@ -1,3 +1,11 @@
+/*
+	Fichier : transfertinterac.cpp
+
+	Fait par :  Cedrik Bienvenue (1894296)
+				Mohamed Khairallah Gharbi (1837067)
+	Date de derniere modification : 4 novembre 2018
+*/
+
 /********************************************
 * Titre: Travail pratique #4 - transfertInterac.cpp
 * Date: 19 octobre 2018
@@ -21,7 +29,7 @@ string TransfertInterac::getCourriel() const
 	return courriel_;
 }
 
-
+// Methode qui retourne les frais relier à un transfert.
 double TransfertInterac::getFraisTransfert() const {
 
 	if (dynamic_cast<UtilisateurPremium*>(expediteur_) != nullptr)
