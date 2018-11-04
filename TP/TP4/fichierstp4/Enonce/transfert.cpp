@@ -13,6 +13,11 @@ Transfert::Transfert() : montant_(0), expediteur_(nullptr), receveur_(nullptr) {
 Transfert::Transfert(double montant, Utilisateur* expediteur, Utilisateur* receveur) : 
 	montant_(montant), expediteur_(expediteur), receveur_(receveur) {
 }
+// Destructeurs : 
+Transfert::~Transfert()
+{
+	
+}
 
 // Methodes d'acces
 double Transfert::getMontant() const {
@@ -25,10 +30,6 @@ Utilisateur* Transfert::getExpediteur() const {
 
 Utilisateur* Transfert::getReceveur() const {
 	return receveur_;
-}
-
-double Transfert::getFraisTransfert() const {
-	return 0.0;
 }
 
 // Methodes de modifications
@@ -48,7 +49,10 @@ void Transfert::effectuerTransfert() {
 	getReceveur()->modifierBalanceTranferts(-(getMontant()));
 	getExpediteur()->modifierBalanceTranferts(getMontant());
 
-	getExpediteur()->modifierBalanceFrais(getFraisTransfert());
+	if (dynamic_cast<UtilisateurPremium*>(expediteur_) != nullptr)
+		expediteur_->modifierBalanceFrais((-montant_) * TAUX_EPARGNE);
+	else
+		expediteur_->modifierBalanceFrais(getFraisTransfert());
 }
 
 //Methode affichage

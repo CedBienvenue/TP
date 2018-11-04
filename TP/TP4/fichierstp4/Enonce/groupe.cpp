@@ -15,6 +15,29 @@ Groupe::Groupe() {
 Groupe::Groupe(const string& nom) : nom_(nom) {
 }
 
+//Destructeurs : 
+Groupe::~Groupe() {
+	//Supprimer vecteur utilisateurs_:
+	for (unsigned int i = 0; i < utilisateurs_.size(); i++) {
+		delete utilisateurs_[i];
+	}
+	utilisateurs_.clear();
+
+	//Supprimer vecteur depenses_:
+	for (unsigned int i = 0; i < depenses_.size(); i++) {
+		delete depenses_[i];
+	}
+	depenses_.clear();
+
+	//Supprimer vecteur transferts_:
+	for (unsigned int i = 0; i < transferts_.size(); i++) {
+		delete transferts_[i];
+	}
+	transferts_.clear();
+
+	//Supprimer vecteur comptes_ : 
+	comptes_.clear();
+}
 // Methodes d'acces
 string Groupe::getNom() const {
 	return nom_;
@@ -56,9 +79,10 @@ void Groupe::setNom(const string& nom) {
 Groupe& Groupe::ajouterDepense(double montant, Utilisateur* payePar, const string& nom, const string& lieu) {
 	
 	bool payeParPresent = false;
-	for (unsigned int i = 0; i < utilisateurs_.size(); i++)
+
+	for (unsigned int i = 0; i < utilisateurs_.size() ; i++)
 	{
-		if (payePar == utilisateurs_[i])
+		if (payePar->getNom() == utilisateurs_[i]->getNom())
 		{
 			Depense* depense = new Depense(nom, montant, lieu);
 			depenses_.push_back(depense);
@@ -66,11 +90,7 @@ Groupe& Groupe::ajouterDepense(double montant, Utilisateur* payePar, const strin
 			payeParPresent = true;
 		}
 	}
-	if (!payeParPresent)
-	{
-		cout << "ERREUR : L'utilisateur " << payePar->getNom() << " ne fait pas partie du groupe ." << endl;
-	}
-	else
+	if (payeParPresent)
 	{
 		double montantParUtilisateur = montant / utilisateurs_.size();
 
@@ -148,9 +168,9 @@ void Groupe::equilibrerComptes() {
 			comptes_[indexMin] += max;
 		}
 
-		// Appel de la méthode effectuer transfert pour mettre à jour la balance des frais et des transferts.
+		// Appel de la mï¿½thode effectuer transfert pour mettre ï¿½ jour la balance des frais et des transferts.
 		transferts_[indexTransfert]->effectuerTransfert();
-		// Incrémentation de l'index du vecteur transfert.
+		// Incrementation de l'index du vecteur transfert.
 		indexTransfert++;
 		
 		// On incremente le nombre de comptes mis a 0

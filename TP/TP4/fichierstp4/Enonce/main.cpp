@@ -7,6 +7,23 @@
 * Auteur: Wassim Khene & Ryan Hardie
 *******************************************/
 
+
+/* Reponse aux questions
+1)
+	Sortie:
+			1
+			2
+			2
+2)
+	Parce que la methode f() est virtuelle qu'à partir de classe B. 
+3)
+	a. Enlever le "virtual" de la methode f() de la classe mère B.
+	b. Dans la methode f() de la classe C on fait appel la methode f() de la classe mère.
+4)
+	Parce que c'est une classe abstraite: Elle possede des methodes virtuelles pures.
+*/
+
+
 #include <iostream>
 #include "depense.h"
 #include "utilisateur.h"
@@ -245,6 +262,30 @@ int main() {
 	cout << *groupe1;
 
 	// TODO: Liberation de la memoire si nécessaire
+	//Desallocation des depenses de la memoire  : 
+	delete d1;
+	d1 = nullptr;
+	delete d2;
+	d2 = nullptr;
+	
+	//Desallocation des utilisateurs  : 
+	//Les utilisateurs premiums : 
+	//delete up1;
+	//delete up2; 
+	//delete up3;
+	//delete up4;
+	//Les utilisateurs reguliers : 
+	//delete ur1; 
+	//delete ur2; 
+	//delete ur3; 
+	//delete ur4; 
+	//Desallocation du groupe : 
+	delete groupe1; 
+	delete groupe2;  
 
+	// Soit desallocation du groupe1 et groupe2 soit desallocation de tous les utilisateurs. 
+
+
+	system("PAUSE"); 
 	return 0;
 }

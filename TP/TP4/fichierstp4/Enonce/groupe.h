@@ -23,7 +23,8 @@ public:
 	// Constructeurs
 	Groupe();
 	Groupe(const string& nom);
-
+	//Destructeurs : 
+	~Groupe();
 	// Methodes d'acces
 	string getNom() const;
 	vector<Depense*> getDepenses() const;

@@ -12,15 +12,20 @@ const double FRAIS_TRANSFERT = 1.0;
 
 class TransfertInterac : public Transfert {
 public:
-	// Constructeur
+	
 	// TODO: a modifier
+	// Constructeur
 	TransfertInterac(double montant, Utilisateur* expediteur, Utilisateur* receveur);
-
+	//Destructeur : 
+	~TransfertInterac(); 
+	//Methode d'acces : 
 	string getCourriel() const;
-	void setcourriel(string courriel);
-
 	// TODO
 	virtual double getFraisTransfert() const;
+	//Methode de modifcation : 
+	void setcourriel(string courriel);
+
+	
 private:
 	string courriel_;
 };

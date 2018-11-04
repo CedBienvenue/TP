@@ -20,12 +20,14 @@ public:
 	Transfert();
 	Transfert(double montant, Utilisateur* expediteur, Utilisateur* receveur_);
 
+	//Destructeurs :
+	~Transfert(); 
 	// Méthodes d'accès
 	Utilisateur* getExpediteur() const;
 	Utilisateur* getReceveur() const;
 	double getMontant() const;
 	// TODO
-	virtual double getFraisTransfert() const = 0;
+	virtual double getFraisTransfert() const = 0; // Methode virtuelle pure.
 
 	// Méthodes d'affichage
 	void setMontant(double montant);

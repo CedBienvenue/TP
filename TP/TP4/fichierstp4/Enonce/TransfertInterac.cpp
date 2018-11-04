@@ -5,31 +5,34 @@
 *******************************************/
 
 #include "transfertInterac.h"
-
+//Constructeurs :
 TransfertInterac::TransfertInterac(double montant, Utilisateur* expediteur, Utilisateur* receveur)
 	: Transfert(montant, expediteur, receveur)
 {
 	courriel_ = receveur->getCourriel();
 }
-
+//Destructeurs : 
+TransfertInterac::~TransfertInterac()
+{
+}
+//Methode d'acces : 
 string TransfertInterac::getCourriel() const
 {
 	return courriel_;
 }
 
-void TransfertInterac::setcourriel(string courriel)
-{
-	courriel_ = courriel;
-}
 
 double TransfertInterac::getFraisTransfert() const {
-	UtilisateurPremium* userPremium = dynamic_cast<UtilisateurPremium*>(getExpediteur());
-	if (userPremium)
-	{
-		return -(getMontant() * 0.03);
-	}
+
+	if (dynamic_cast<UtilisateurPremium*>(expediteur_) != nullptr)
+		return 0;
 	else
 	{
 		return FRAIS_TRANSFERT;
 	}
+}
+//Methode de modification : 
+void TransfertInterac::setcourriel(string courriel)
+{
+	courriel_ = courriel;
 }

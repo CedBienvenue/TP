@@ -18,7 +18,7 @@ public:
 	// Constructeur
 	// TODO: a modifier
 	TransfertPaypal(double montant, Utilisateur* expediteur, Utilisateur* receveur);
-
+	~TransfertPaypal();
 	string getId() const;
 	void setId(string id);
 

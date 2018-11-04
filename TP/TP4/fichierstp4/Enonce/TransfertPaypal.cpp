@@ -5,32 +5,31 @@
 *******************************************/
 
 #include "transfertPaypal.h"
-
+// Constructeur : 
 TransfertPaypal::TransfertPaypal(double montant, Utilisateur * expediteur, Utilisateur * receveur)
 	: Transfert(montant, expediteur, receveur)
 {
 	id_ = expediteur->getIdPaypal();
 }
-
+//Destructeur : 
+TransfertPaypal::~TransfertPaypal()
+{
+}
+ //Methode d'acces : 
 string TransfertPaypal::getId() const
 {
 	return id_;
 }
 
 double TransfertPaypal::getFraisTransfert() const{
-	
-	UtilisateurPremium* userPremium = dynamic_cast<UtilisateurPremium*>(getExpediteur());
-	if (userPremium)
+	if (dynamic_cast<UtilisateurPremium*>(expediteur_) != nullptr)
+		return 0;
 	{
-		return -(getMontant() * 0.03);
-	}
-	else
-	{
-		return (getMontant() * COMMISSION) + FRAIS;
+		return (getMontant() * COMMISSION + FRAIS);
 	}
 	
 }
-
+//Methode de modification : 
 void TransfertPaypal::setId(string id)
 {
 	id_ = id;

@@ -19,7 +19,10 @@ Utilisateur::Utilisateur(const string& nom, MethodePaiement methodePaiement,
 	balanceFrais_(0),
 	balanceTransferts_(0)
 {}
-
+//Destructeur : 
+Utilisateur::~Utilisateur(){
+	depenses_.clear();
+}
 // Methodes d'acces
 string Utilisateur::getNom() const {
 	return nom_;

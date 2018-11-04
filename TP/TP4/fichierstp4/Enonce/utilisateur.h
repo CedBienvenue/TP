@@ -23,7 +23,8 @@ public:
 	// Constructeurs
 	Utilisateur();
 	Utilisateur(const string& nom = "", MethodePaiement methodePaiement = Interac, const string& courriel = "", const string& idPaypal= "");
-
+	//Destructeur : 
+	~Utilisateur();
 	// Methodes d'accès
 	string getNom() const;
 	vector<Depense*> getDepenses() const;
