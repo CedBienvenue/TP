@@ -4,39 +4,40 @@
 * Auteur: Ryan Hardie
 *******************************************/
 
-/*
-	Foncteur AjouterDepense
 
-	Méthode :
-	Constructeur
-	vector<Depense*>& operator()();
+class AjouterDepense{
 
-	Attribut :
+public:
+	//Constructeur
+	AjouterDepense(vector<Depense*> conteneur) : conteneur_(conteneur) {};
+	vector<Depense*>& operator()(Depense*);
+
+private:
 	vector<Depense*> conteneur_;
-*/
+};
 
 
 
-/*
-Foncteur AjouterUtilisateur
+class AjouterUtilisateur {
+public:
+	//Constructeur
+	AjouterUtilisateur(map conteneur) : conteneur_(conteneur) {};
+	map<Utilisateur*, double>& operator()(Utilisateur*);
 
-Méthode :
-Constructeur
-map<Utilisateur*, double>& operator()();
-
-Attribut :
-map<Utilisateur*, double> conteneur_;
-*/
-
+private:
+	map<Utilisateur*, double> conteneur_;
+};
 
 
-/*
-Foncteur FoncteurIntervalle
+class FoncteurIntervalle{
+public:
+	//Constructeur
+	FoncteurIntervalle(double borneInf, double borneSup) : borneInf_(borneInf), borneSup_(borneSup) {};
+	bool operator()(pair<Utilisateur*, double>);
 
-Méthode :
-Constructeur
-bool operator()();
+private:
+	double borneInf_, borneSup_;
+};
 
-Attribut :
-double borneInf_, borneSup_;
-*/
+
+

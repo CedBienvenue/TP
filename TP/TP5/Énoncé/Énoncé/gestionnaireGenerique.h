@@ -4,15 +4,17 @@
 * Auteur: Ryan Hardie
 *******************************************/
 
-/*
-	class GestionnaireGenerique
-	
-	Méthodes :
+template<typename T, typename C, typename D>
+class GestionnaireGenerique {
+public:
 	C getConteneur() const;
 	void ajouter(T t);
 	int getNombreElements() const;
 	D getElementParIndex(int i) const;
 
-	Attributs :
+private:
 	C conteneur_;
-*/
+};
+	
+
+

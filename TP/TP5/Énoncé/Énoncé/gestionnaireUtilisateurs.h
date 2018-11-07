@@ -7,19 +7,30 @@
 #pragma once
 
 #include "utilisateur.h"
-
+#include "gestionnaireGenerique.h"
 #include <vector>
 
-class GestionnaireUtilisateurs {
+class GestionnaireUtilisateurs : public GestionnaireGenerique {
 public:
-	Utilisateur* getUtilisateurParIndex(int i) const;
-	vector<Utilisateur*> getUtilisateurs() const;
-	int getNombreUtilisateurs() const;
-	int getIndexDe(Utilisateur* utilisateur) const;
+	/*Utilisateur* getUtilisateurParIndex(int i) const;
+	vector<Utilisateur*> getUtilisateurs() const;*/
+	vector<double> getComptes() const;
+	void mettreAJourComptes(Utilisateur* payePar, double montant) const;
+	
+	pair<Utilisateur*, double>& getMax() const;
+	pair<Utilisateur*, double>& getMin() const;
+
+	Utilisateur* getUtilisateurSuivant(Utilisateur* utilisateur, double montant) const;
+
+	vector<pair<Utilisateur*, double>> getUtilisateursEntre(double borneInf, double borneSup) const;
+
+	GestionnaireUtilisateurs& setCompte(pair<Utilisateur*, double> p);
+	/*int getNombreUtilisateurs() const;
+	int getIndexDe(Utilisateur* utilisateur) const;*/
 
 	
-	GestionnaireUtilisateurs& ajouterUtilisateur(Utilisateur* utilisateur);
+	//GestionnaireUtilisateurs& ajouterUtilisateur(Utilisateur* utilisateur);
 
 private:
-	vector<Utilisateur*> utilisateurs_;
+	//vector<Utilisateur*> utilisateurs_;
 };

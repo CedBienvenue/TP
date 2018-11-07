@@ -7,16 +7,16 @@
 #include <algorithm>
 #include <vector>
 
-class GestionnaireDepenses {
+class GestionnaireDepenses : public GestionnaireGenerique {
 public:
-	vector<Depense*> getDepenses() const;
+	/*vector<Depense*> getDepenses() const;
 	int getNombreDepenses() const;
 	int getIndexDe(Depense * depense) const;
-	Depense* getDepenseParIndex(int i) const;
+	Depense* getDepenseParIndex(int i) const;*/
 	double getTotalDepenses() const;
 
-	GestionnaireDepenses& ajouterDepense(Depense* depense);
+	//GestionnaireDepenses& ajouterDepense(Depense* depense);
 
 private:
-	vector<Depense*> depenses_;
+	//vector<Depense*> depenses_;
 };
