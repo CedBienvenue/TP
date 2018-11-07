@@ -3,18 +3,29 @@
 * Date: 4 novembre 2018
 * Auteur: Ryan Hardie
 *******************************************/
+#ifndef GESTIONNAIREGENERIQUE_H
+#define GESTIONNAIREGENERIQUE_H
 
-template<typename T, typename C, typename D>
+template<typename T, typename C, typename D, typename FoncteurAjouter>
 class GestionnaireGenerique {
 public:
-	C getConteneur() const;
-	void ajouter(T t);
-	int getNombreElements() const;
-	D getElementParIndex(int i) const;
+	C getConteneur() const { return conteneur_; }
+	void ajouter(T t) {
+		FoncteurAjouter foncteur = FoncteurAjouter(conteneur_);
+		foncteur(t&);
+	}
+	int getNombreElements() const { return conteneur_.size(); }
+	D getElementParIndex(int i) const {
+		if (i < getNombreElements())
+		{
+			auto iterator = conteneur_.begin() + i;
+			return *iterator;
+		}
+		return nullptr;
+	}
 
-private:
+protected:
 	C conteneur_;
 };
-	
 
-
+#endif // !GESTIONNAIREGENERIQUE_H

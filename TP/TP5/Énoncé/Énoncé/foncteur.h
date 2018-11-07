@@ -3,7 +3,10 @@
 * Date: 4 novembre 2018
 * Auteur: Ryan Hardie
 *******************************************/
+#ifndef FONCTEUR_H
+#define FONCTEUR_H
 
+#include <map>
 
 class AjouterDepense{
 
@@ -21,7 +24,7 @@ private:
 class AjouterUtilisateur {
 public:
 	//Constructeur
-	AjouterUtilisateur(map conteneur) : conteneur_(conteneur) {};
+	AjouterUtilisateur(map<Utilisateur*, double> conteneur) : conteneur_(conteneur) {};
 	map<Utilisateur*, double>& operator()(Utilisateur*);
 
 private:
@@ -39,5 +42,4 @@ private:
 	double borneInf_, borneSup_;
 };
 
-
-
+#endif // !FONCTEUR_H

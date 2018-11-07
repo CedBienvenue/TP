@@ -4,13 +4,19 @@
 * Auteur: Ryan Hardie
 *******************************************/
 
+#ifndef GESTIONNAIREUTILISATEURS_H
+#define GESTIONNAIREUTILISATEURS_H
+
+
 #pragma once
 
 #include "utilisateur.h"
 #include "gestionnaireGenerique.h"
 #include <vector>
 
-class GestionnaireUtilisateurs : public GestionnaireGenerique {
+using namespace std;
+
+class GestionnaireUtilisateurs : public GestionnaireGenerique<Utilisateur*, map<Utilisateur*, double>, Utilisateur*, AjouterUtilisateur> {
 public:
 	/*Utilisateur* getUtilisateurParIndex(int i) const;
 	vector<Utilisateur*> getUtilisateurs() const;*/
@@ -34,3 +40,5 @@ public:
 private:
 	//vector<Utilisateur*> utilisateurs_;
 };
+
+#endif // !GESTIONNAIREUTILISATEURS_H
