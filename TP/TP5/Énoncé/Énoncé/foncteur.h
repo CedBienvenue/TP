@@ -8,27 +8,30 @@
 
 #include <map>
 
-class AjouterDepense{
+class AjouterDepense {
 
 public:
 	//Constructeur
-	AjouterDepense(vector<Depense*> conteneur) : conteneur_(conteneur) {};
-	vector<Depense*>& operator()(Depense*);
+	AjouterDepense(vector<Depense*>& conteneur) : conteneur_(conteneur) {};
+	vector<Depense*>& operator()(Depense* depense) {
+		conteneur_.push_back(depense);
+		return conteneur_;
+	}
 
 private:
-	vector<Depense*> conteneur_;
+	vector<Depense*>& conteneur_;
 };
-
-
 
 class AjouterUtilisateur {
 public:
 	//Constructeur
-	AjouterUtilisateur(map<Utilisateur*, double> conteneur) : conteneur_(conteneur) {};
-	map<Utilisateur*, double>& operator()(Utilisateur*);
+	AjouterUtilisateur(map<Utilisateur*, double>& conteneur) : conteneur_(conteneur) {};
+	map<Utilisateur*, double>& operator()(Utilisateur* utilisateur) {
+		conteneur_.insert(pair<Utilisateur*, double>(utilisateur, 0));
+	}
 
 private:
-	map<Utilisateur*, double> conteneur_;
+	map<Utilisateur*, double>& conteneur_;
 };
 
 
@@ -36,7 +39,9 @@ class FoncteurIntervalle{
 public:
 	//Constructeur
 	FoncteurIntervalle(double borneInf, double borneSup) : borneInf_(borneInf), borneSup_(borneSup) {};
-	bool operator()(pair<Utilisateur*, double>);
+	bool operator()(pair<Utilisateur*, double> p) {
+		return p.second >= borneInf_ && p.second <= borneSup_;
+	}
 
 private:
 	double borneInf_, borneSup_;

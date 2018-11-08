@@ -16,20 +16,51 @@ void GestionnaireUtilisateurs::mettreAJourComptes(Utilisateur* payePar, double m
 
 // Methode qui permet de verifier si un Utilisateur est bien dans le groupe.
 bool GestionnaireUtilisateurs::estExistant(Utilisateur* utilisateur) const {
-	
+	for (int i = 0; i < getNombreElements(); i++)
+	{
+		if (getConteneur().find(getElementParIndex(i).first == utilisateur)) {
+			return true;
+		}
+	}
+	return false;
 }
 
 // Methode d'acces
 vector<double> GestionnaireUtilisateurs::getComptes() const {
-
+	vector<double> compteUser;
+	map<Utilisateur*, double>::iterator end = getConteneur().end();
+	copy(getConteneur().begin(), end, compteUser);
+	return compteUser;
 }
 
 pair<Utilisateur*, double>& GestionnaireUtilisateurs::getMax() const {
-
+	double max = 0;
+	double temp;
+	pair<Utilisateur*, double> utilisateurMax;
+	for (int i = 0; i < getNombreElements(); i++)
+	{
+		temp = getElementParIndex(i).second;
+		if (temp > max)
+		{
+			utilisateurMax = getElementParIndex(i);
+		}
+	}
+	return utilisateurMax;
 }
 
 pair<Utilisateur*, double>& GestionnaireUtilisateurs::getMin() const {
-
+	double min = 0;
+	double temp;
+	pair<Utilisateur*, double> utilisateurMin;
+	for (int i = 0; i < getNombreElements(); i++)
+	{
+		temp = getElementParIndex(i).second;
+		if (temp < min)
+		{
+			utilisateurMin = getElementParIndex(i);
+		}
+	}
+	return utilisateurMin;
 }
 
 Utilisateur* GestionnaireUtilisateurs::getUtilisateurSuivant(Utilisateur*, double montant) const {

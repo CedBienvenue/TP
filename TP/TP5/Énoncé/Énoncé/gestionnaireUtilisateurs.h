@@ -13,6 +13,7 @@
 #include "utilisateur.h"
 #include "gestionnaireGenerique.h"
 #include <vector>
+#include <map>
 
 using namespace std;
 
