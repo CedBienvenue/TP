@@ -12,7 +12,7 @@ public:
 	C getConteneur() const { return conteneur_; }
 	void ajouter(T t) {
 		FoncteurAjouter foncteur = FoncteurAjouter(conteneur_);
-		foncteur(t&);
+		foncteur(t&); // & à vérifier
 	}
 	int getNombreElements() const { return conteneur_.size(); }
 	D getElementParIndex(int i) const {
