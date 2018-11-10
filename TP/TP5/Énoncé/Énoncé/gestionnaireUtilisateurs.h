@@ -12,8 +12,12 @@
 
 #include "utilisateur.h"
 #include "gestionnaireGenerique.h"
+#include "foncteur.h"
+
 #include <vector>
 #include <map>
+#include <algorithm>
+
 
 using namespace std;
 

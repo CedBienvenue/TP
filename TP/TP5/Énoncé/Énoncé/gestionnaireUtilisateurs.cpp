@@ -9,6 +9,8 @@
 #include "utilisateurRegulier.h"
 
 
+
+
 // Methode qui permet de mettre a jour un compte Utilisateur selon le montant passe en parametre
 void GestionnaireUtilisateurs::mettreAJourComptes(Utilisateur* payePar, double montant) const {
 
@@ -16,11 +18,12 @@ void GestionnaireUtilisateurs::mettreAJourComptes(Utilisateur* payePar, double m
 
 // Methode qui permet de verifier si un Utilisateur est bien dans le groupe.
 bool GestionnaireUtilisateurs::estExistant(Utilisateur* utilisateur) const {
-	for (int i = 0; i < getNombreElements(); i++)
+	
+	map<Utilisateur*, double>::iterator it;
+	it = find(getConteneur().begin(), getConteneur().end(), utilisateur);
+	if (it != getConteneur().end())
 	{
-		if (getConteneur().find(getElementParIndex(i).first == utilisateur)) {
-			return true;
-		}
+		return true;
 	}
 	return false;
 }
@@ -63,12 +66,15 @@ pair<Utilisateur*, double>& GestionnaireUtilisateurs::getMin() const {
 	return utilisateurMin;
 }
 
-Utilisateur* GestionnaireUtilisateurs::getUtilisateurSuivant(Utilisateur*, double montant) const {
+Utilisateur* GestionnaireUtilisateurs::getUtilisateurSuivant(Utilisateur* utilisateur, double montant) const {
 
 }
 
 vector<pair<Utilisateur*, double>> GestionnaireUtilisateurs::getUtilisateursEntre(double borneInf, double borneSup) const {
-
+	vector<pair<Utilisateur*, double>> userEntre;
+	map<Utilisateur*, double>::iterator end = getConteneur().end();
+	copy_if(getConteneur().begin(), end, FoncteurIntervalle(borneInf, borneSup), back_inserter(userEntre));
+	return userEntre;
 }
 
 // Methode de modification
