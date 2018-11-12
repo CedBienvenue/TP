@@ -94,7 +94,7 @@ Groupe& Groupe::ajouterDepense(double montant, Utilisateur* payePar, const strin
 	// depenses_.push_back(depense);
 
 	// Ajouté :
-	gestionnaireDepenses_->ajouterDepense(depense);
+	gestionnaireDepenses_->ajouter(depense);
 
 	*payePar += depense;
 
@@ -112,7 +112,7 @@ Groupe& Groupe::ajouterDepense(double montant, Utilisateur* payePar, const strin
 Groupe& Groupe::operator+=(Utilisateur* utilisateur)
 {
 	// Ajouté :
-	gestionnaireUtilisateurs_->ajouterUtilisateur(utilisateur);
+	gestionnaireUtilisateurs_->ajouter(utilisateur);
 
 	comptes_.push_back(0);
 	return *this;

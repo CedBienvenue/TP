@@ -11,4 +11,5 @@ double GestionnaireDepenses::getTotalDepenses() const
 	{
 		totalDepense += getElementParIndex(i)->getMontant();
 	}
+	return totalDepense;
 }

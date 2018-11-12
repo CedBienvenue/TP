@@ -49,6 +49,9 @@ pair<Utilisateur*, double>& GestionnaireUtilisateurs::getMax() const {
 		}
 	}
 	return utilisateurMax;
+
+	//for_each(getConteneur().begin(), getConteneur().end(), max(temp, maxi));
+
 }
 
 pair<Utilisateur*, double>& GestionnaireUtilisateurs::getMin() const {
@@ -80,4 +83,11 @@ vector<pair<Utilisateur*, double>> GestionnaireUtilisateurs::getUtilisateursEntr
 // Methode de modification
 GestionnaireUtilisateurs& GestionnaireUtilisateurs::setCompte(pair<Utilisateur*, double> p) {
 	
+	map<Utilisateur*, double>::iterator it;
+	it = getConteneur().find(p.first);
+	if (it != getConteneur().end())
+	{
+		(*it).second = p.second;
+		return *this;
+	}
 }
