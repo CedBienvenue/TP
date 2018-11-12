@@ -1,4 +1,4 @@
-/********************************************
+	/********************************************
 * Titre: Travail pratique #5 - gestionnaireUtilisateurs.cpp
 * Date: 4 novembre 2018
 * Auteur: Ryan Hardie
@@ -7,9 +7,6 @@
 #include "gestionnaireUtilisateurs.h"
 #include "utilisateurPremium.h"
 #include "utilisateurRegulier.h"
-
-
-
 
 // Methode qui permet de mettre a jour un compte Utilisateur selon le montant passe en parametre
 void GestionnaireUtilisateurs::mettreAJourComptes(Utilisateur* payePar, double montant) const {
@@ -37,35 +34,55 @@ vector<double> GestionnaireUtilisateurs::getComptes() const {
 }
 
 pair<Utilisateur*, double>& GestionnaireUtilisateurs::getMax() const {
-	double max = 0;
-	double temp;
+	double valeurMax = 0;
+	//double temp;
 	pair<Utilisateur*, double> utilisateurMax;
-	for (int i = 0; i < getNombreElements(); i++)
+
+	map<Utilisateur*, double>::iterator end = getConteneur().end();
+	for (map<Utilisateur*, double>::iterator it = getConteneur().begin(); it != end; ++it)
 	{
-		temp = getElementParIndex(i).second;
-		if (temp > max)
+		if ((*it).second > valeurMax)
 		{
-			utilisateurMax = getElementParIndex(i);
+			valeurMax = (*it).second;
+			utilisateurMax = *it;
 		}
 	}
-	return utilisateurMax;
 
-	//for_each(getConteneur().begin(), getConteneur().end(), max(temp, maxi));
+	//for (int i = 0; i < getNombreElements(); i++)
+	//{
+	//	temp = getElementParIndex(i).second;
+	//	if (temp > valeurMax)
+	//	{
+	//		utilisateurMax = getElementParIndex(i);
+	//	}
+	//}
+	return utilisateurMax;
 
 }
 
 pair<Utilisateur*, double>& GestionnaireUtilisateurs::getMin() const {
-	double min = 0;
-	double temp;
+	
+	double valeurMin = 0;
+	//double temp;
 	pair<Utilisateur*, double> utilisateurMin;
-	for (int i = 0; i < getNombreElements(); i++)
+
+	map<Utilisateur*, double>::iterator end = getConteneur().end();
+	for (map<Utilisateur*, double>::iterator it = getConteneur().begin(); it != end; ++it)
+	{
+		if ((*it).second < valeurMin)
+		{
+			valeurMin = (*it).second;
+			utilisateurMin = *it;
+		}
+	}
+	/*for (int i = 0; i < getNombreElements(); i++)
 	{
 		temp = getElementParIndex(i).second;
-		if (temp < min)
+		if (temp < valeurMin)
 		{
 			utilisateurMin = getElementParIndex(i);
 		}
-	}
+	}*/
 	return utilisateurMin;
 }
 

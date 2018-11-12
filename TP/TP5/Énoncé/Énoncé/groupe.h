@@ -37,8 +37,8 @@ public:
 	// TODO : À modifier :
 	vector<double> getComptes() const;
 	double getTotalDepenses() const;
-	vector<Depense*> getDepenses() const;
-	vector<Utilisateur*> getUtilisateurs() const;
+	Depense* getDepenses(int index) const;
+	pair<Utilisateur*, double> getUtilisateurs(int index) const;
 
 	// Ajouté :
 	GestionnaireUtilisateurs* getGestionnaireUtilisateurs();

@@ -19,10 +19,10 @@ Groupe::Groupe(const string& nom) : nom_(nom) {
 }
 
 Groupe::~Groupe() {
-	vector<Depense*> depenses = gestionnaireDepenses_->getDepenses();
+	/*vector<Depense*> depenses = gestionnaireDepenses_->getDepenses();
 	for (int i = 0; i < depenses.size(); i++) {
 		delete depenses[i];
-	}
+	}*/
 	for (int i = 0; i < transferts_.size(); i++) {
 		delete transferts_[i];
 	}
@@ -37,15 +37,17 @@ string Groupe::getNom() const {
 }
 
 // TODO : À modifier :
-vector<Depense*> Groupe::getDepenses() const
+Depense* Groupe::getDepenses(int index) const
 {
-	return gestionnaireDepenses_->getDepenses();
+	if (index > 0 && index < gestionnaireDepenses_->getNombreElements())
+		return gestionnaireDepenses_->getElementParIndex(index);
 }
 
 // TODO : À modifier :
-vector<Utilisateur*> Groupe::getUtilisateurs() const
+pair<Utilisateur*, double> Groupe::getUtilisateurs(int index) const
 {
-	return gestionnaireUtilisateurs_->getUtilisateurs();
+	if (index > 0 && index < gestionnaireUtilisateurs_->getNombreElements())
+		return gestionnaireUtilisateurs_->getElementParIndex(index);
 }
 
 vector<Transfert*> Groupe::getTransferts() const
@@ -55,7 +57,7 @@ vector<Transfert*> Groupe::getTransferts() const
 
 // TODO : À modifier :
 vector<double> Groupe::getComptes() const {
-	return comptes_;
+	return gestionnaireUtilisateurs_->getComptes();
 }
 
 double Groupe::getTotalDepenses() const {
@@ -99,9 +101,9 @@ Groupe& Groupe::ajouterDepense(double montant, Utilisateur* payePar, const strin
 	*payePar += depense;
 
 	// Mise a jour des comptes
-	double montantReparti = depense->getMontant() / gestionnaireUtilisateurs_->getNombreUtilisateurs();
+	double montantReparti = depense->getMontant() / gestionnaireUtilisateurs_->getNombreElements();
 	comptes_[indexPayePar] += depense->getMontant() - montantReparti;
-	for (int i = 0; i < gestionnaireUtilisateurs_->getNombreUtilisateurs(); i++) {
+	for (int i = 0; i < gestionnaireUtilisateurs_->getNombreElements(); i++) {
 		if (i != indexPayePar) {
 			comptes_[i] -= montantReparti;
 		}
@@ -130,7 +132,7 @@ void Groupe::equilibrerComptes() {
 		int indexMin = 0;
 
 		// On cherche le compte le plus eleve et le moins eleve
-		for (int i = 0; i < gestionnaireUtilisateurs_->getNombreUtilisateurs(); i++) {
+		for (int i = 0; i < gestionnaireUtilisateurs_->getNombreElements(); i++) {
 			if (comptes_[i] > max) {
 				max = comptes_[i];
 				indexMax = i;
@@ -143,13 +145,13 @@ void Groupe::equilibrerComptes() {
 
 		// On cherche lequel des deux a la dette la plus grande
 		if (-min <= max && min != 0 && max != 0) {
-			if (gestionnaireUtilisateurs_->getUtilisateurParIndex(indexMin)->getMethodePaiement() == Interac) {
-				TransfertInterac* transfert = new TransfertInterac(-min, gestionnaireUtilisateurs_->getUtilisateurParIndex(indexMin), gestionnaireUtilisateurs_->getUtilisateurParIndex(indexMax));
+			if (gestionnaireUtilisateurs_->getElementParIndex(indexMin).first->getMethodePaiement() == Interac) {
+				TransfertInterac* transfert = new TransfertInterac(-min, gestionnaireUtilisateurs_->getElementParIndex(indexMin).first, gestionnaireUtilisateurs_->getElementParIndex(indexMax).first);
 				transferts_.push_back(transfert);
 				transfert->effectuerTransfert();
 			}
 			else {
-				TransfertPaypal* transfert = new TransfertPaypal(-min, gestionnaireUtilisateurs_->getUtilisateurParIndex(indexMin), gestionnaireUtilisateurs_->getUtilisateurParIndex(indexMax));
+				TransfertPaypal* transfert = new TransfertPaypal(-min, gestionnaireUtilisateurs_->getElementParIndex(indexMin).first, gestionnaireUtilisateurs_->getElementParIndex(indexMax).first);
 				transferts_.push_back(transfert);
 				transfert->effectuerTransfert();
 			}
@@ -157,13 +159,13 @@ void Groupe::equilibrerComptes() {
 			comptes_[indexMin] = 0;
 		}
 		else if (-min > max  && min != 0 && max != 0) {
-			if (gestionnaireUtilisateurs_->getUtilisateurParIndex(indexMin)->getMethodePaiement() == Interac) {
-				TransfertInterac* transfert = new TransfertInterac(max, gestionnaireUtilisateurs_->getUtilisateurParIndex(indexMin), gestionnaireUtilisateurs_->getUtilisateurParIndex(indexMax));
+			if (gestionnaireUtilisateurs_->getElementParIndex(indexMin).first->getMethodePaiement() == Interac) {
+				TransfertInterac* transfert = new TransfertInterac(max, gestionnaireUtilisateurs_->getElementParIndex(indexMin).first, gestionnaireUtilisateurs_->getElementParIndex(indexMax).first);
 				transferts_.push_back(transfert);
 				transfert->effectuerTransfert();
 			}
 			else {
-				TransfertPaypal* transfert = new TransfertPaypal(max, gestionnaireUtilisateurs_->getUtilisateurParIndex(indexMin), gestionnaireUtilisateurs_->getUtilisateurParIndex(indexMax));
+				TransfertPaypal* transfert = new TransfertPaypal(max, gestionnaireUtilisateurs_->getElementParIndex(indexMin).first, gestionnaireUtilisateurs_->getElementParIndex(indexMax).first);
 				transferts_.push_back(transfert);
 				transfert->effectuerTransfert();
 			}
@@ -176,7 +178,7 @@ void Groupe::equilibrerComptes() {
 		if (-min == max) {
 			count++;
 		}
-		if (count >= gestionnaireUtilisateurs_->getNombreUtilisateurs() - 1) {
+		if (count >= gestionnaireUtilisateurs_->getNombreElements()) - 1) {
 			calcul = false;
 		}
 	}
@@ -188,8 +190,8 @@ void Groupe::equilibrerComptes() {
 ostream & operator<<(ostream& os, const Groupe& groupe)
 {
 	os << "\nGroupe " << groupe.nom_ << ".\nCout total: " << groupe.getTotalDepenses() << "$ \nUtilisateurs:    \n\n";
-	for (int i = 0; i < groupe.gestionnaireUtilisateurs_->getNombreUtilisateurs(); i++) {
-		os << "\t- " << *groupe.gestionnaireUtilisateurs_->getUtilisateurParIndex(i);
+	for (int i = 0; i < groupe.gestionnaireUtilisateurs_->getNombreElements(); i++) {
+		os << "\t- " << *groupe.gestionnaireUtilisateurs_->getElementParIndex(i).first;
 	}
 	os << endl;
 
@@ -201,7 +203,7 @@ ostream & operator<<(ostream& os, const Groupe& groupe)
 	else {
 		os << "Les comptes ne sont pas equilibres" << endl << endl;
 		for (int i = 0; i < groupe.comptes_.size(); i++) {
-			os << groupe.gestionnaireUtilisateurs_->getUtilisateurParIndex(i)->getNom() << " : " << groupe.comptes_[i] << endl;
+			os << groupe.gestionnaireUtilisateurs_->getElementParIndex(i).first->getNom() << " : " << groupe.comptes_[i] << endl;
 		}
 	}
 
