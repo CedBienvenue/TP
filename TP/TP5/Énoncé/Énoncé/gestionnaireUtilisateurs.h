@@ -17,7 +17,8 @@
 #include <vector>
 #include <map>
 #include <algorithm>
-
+#include <functional>
+#include <iterator>
 
 using namespace std;
 

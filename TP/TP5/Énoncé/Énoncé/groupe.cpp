@@ -19,10 +19,7 @@ Groupe::Groupe(const string& nom) : nom_(nom) {
 }
 
 Groupe::~Groupe() {
-	/*vector<Depense*> depenses = gestionnaireDepenses_->getDepenses();
-	for (int i = 0; i < depenses.size(); i++) {
-		delete depenses[i];
-	}*/
+	
 	for (int i = 0; i < transferts_.size(); i++) {
 		delete transferts_[i];
 	}
@@ -83,17 +80,13 @@ void Groupe::setNom(const string& nom) {
 // TODO : À modifier :
 Groupe& Groupe::ajouterDepense(double montant, Utilisateur* payePar, const string& nom, const string& lieu)
 {
-	// Trouver l'index de l'auteur de la depense
-	int indexPayePar = gestionnaireUtilisateurs_->getIndexDe(payePar);
-
-	if (indexPayePar == -1) {
+	// Verification si l'utilisateur payePar est dans le groupe.
+	if (!gestionnaireUtilisateurs_->estExistant(payePar))
+	{
 		return *this;
 	}
 
 	Depense* depense = new Depense(nom, montant, lieu);
-
-	// Modifié :
-	// depenses_.push_back(depense);
 
 	// Ajouté :
 	gestionnaireDepenses_->ajouter(depense);
@@ -101,13 +94,7 @@ Groupe& Groupe::ajouterDepense(double montant, Utilisateur* payePar, const strin
 	*payePar += depense;
 
 	// Mise a jour des comptes
-	double montantReparti = depense->getMontant() / gestionnaireUtilisateurs_->getNombreElements();
-	comptes_[indexPayePar] += depense->getMontant() - montantReparti;
-	for (int i = 0; i < gestionnaireUtilisateurs_->getNombreElements(); i++) {
-		if (i != indexPayePar) {
-			comptes_[i] -= montantReparti;
-		}
-	}
+	gestionnaireUtilisateurs_->mettreAJourComptes(payePar, montant);
 	return *this;
 }
 
@@ -115,8 +102,6 @@ Groupe& Groupe::operator+=(Utilisateur* utilisateur)
 {
 	// Ajouté :
 	gestionnaireUtilisateurs_->ajouter(utilisateur);
-
-	comptes_.push_back(0);
 	return *this;
 }
 
@@ -126,51 +111,39 @@ void Groupe::equilibrerComptes() {
 	bool calcul = true;
 	int count = 0;
 	while (calcul) {
-		double max = 0;
-		double min = 0;
-		int indexMax = 0;
-		int indexMin = 0;
-
 		// On cherche le compte le plus eleve et le moins eleve
-		for (int i = 0; i < gestionnaireUtilisateurs_->getNombreElements(); i++) {
-			if (comptes_[i] > max) {
-				max = comptes_[i];
-				indexMax = i;
-			}
-			if (comptes_[i] < min) {
-				min = comptes_[i];
-				indexMin = i;
-			}
-		}
-
+		pair<Utilisateur*, double> userMax = gestionnaireUtilisateurs_->getMax();
+		pair<Utilisateur*, double> userMin = gestionnaireUtilisateurs_->getMin();
+		double max = userMax.second;
+		double min = userMin.second;
 		// On cherche lequel des deux a la dette la plus grande
 		if (-min <= max && min != 0 && max != 0) {
-			if (gestionnaireUtilisateurs_->getElementParIndex(indexMin).first->getMethodePaiement() == Interac) {
-				TransfertInterac* transfert = new TransfertInterac(-min, gestionnaireUtilisateurs_->getElementParIndex(indexMin).first, gestionnaireUtilisateurs_->getElementParIndex(indexMax).first);
+			if (userMin.first->getMethodePaiement() == Interac) {
+				TransfertInterac* transfert = new TransfertInterac(-min,userMin.first, userMax.first);
 				transferts_.push_back(transfert);
 				transfert->effectuerTransfert();
 			}
 			else {
-				TransfertPaypal* transfert = new TransfertPaypal(-min, gestionnaireUtilisateurs_->getElementParIndex(indexMin).first, gestionnaireUtilisateurs_->getElementParIndex(indexMax).first);
+				TransfertPaypal* transfert = new TransfertPaypal(-min, userMin.first, userMax.first);
 				transferts_.push_back(transfert);
 				transfert->effectuerTransfert();
 			}
-			comptes_[indexMax] += min;
-			comptes_[indexMin] = 0;
+			userMax.second += min;
+			userMin.second = 0;
 		}
 		else if (-min > max  && min != 0 && max != 0) {
-			if (gestionnaireUtilisateurs_->getElementParIndex(indexMin).first->getMethodePaiement() == Interac) {
-				TransfertInterac* transfert = new TransfertInterac(max, gestionnaireUtilisateurs_->getElementParIndex(indexMin).first, gestionnaireUtilisateurs_->getElementParIndex(indexMax).first);
+			if (userMin.first->getMethodePaiement() == Interac) {
+				TransfertInterac* transfert = new TransfertInterac(max, userMin.first, userMax.first);
 				transferts_.push_back(transfert);
 				transfert->effectuerTransfert();
 			}
 			else {
-				TransfertPaypal* transfert = new TransfertPaypal(max, gestionnaireUtilisateurs_->getElementParIndex(indexMin).first, gestionnaireUtilisateurs_->getElementParIndex(indexMax).first);
+				TransfertPaypal* transfert = new TransfertPaypal(max, userMin.first, userMax.first);
 				transferts_.push_back(transfert);
 				transfert->effectuerTransfert();
 			}
-			comptes_[indexMax] = 0;
-			comptes_[indexMin] += max;
+			userMin.second = 0;
+			userMax.second += max;
 		}
 
 		// On incremente le nombre de comptes mis a 0
