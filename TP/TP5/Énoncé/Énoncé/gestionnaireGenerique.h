@@ -23,12 +23,13 @@ public:
 
 	// Methode qui retourne un element du conteneur selon l'index passe en parametre
 	D getElementParIndex(int i) const {
-		if (i < getNombreElements())
+		
+		auto it = conteneur_.begin();
+		for (int j = 0; j < i; j++)
 		{
-			auto iterator = conteneur_.begin() + i;
-			return *iterator;
+			it++;
 		}
-		return nullptr;
+		return *it;
 	}
 
 protected:

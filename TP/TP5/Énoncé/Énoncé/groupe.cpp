@@ -20,7 +20,7 @@ Groupe::Groupe(const string& nom) : nom_(nom) {
 
 Groupe::~Groupe() {
 	
-	for (int i = 0; i < transferts_.size(); i++) {
+	for (unsigned int i = 0; i < transferts_.size(); i++) {
 		delete transferts_[i];
 	}
 
@@ -34,17 +34,17 @@ string Groupe::getNom() const {
 }
 
 // TODO : À modifier :
-Depense* Groupe::getDepenses(int index) const
+vector<Depense*> Groupe::getDepenses() const
 {
-	if (index > 0 && index < gestionnaireDepenses_->getNombreElements())
-		return gestionnaireDepenses_->getElementParIndex(index);
+	return gestionnaireDepenses_->getConteneur();
 }
 
 // TODO : À modifier :
-pair<Utilisateur*, double> Groupe::getUtilisateurs(int index) const
+vector<Utilisateur*> Groupe::getUtilisateurs() const
 {
-	if (index > 0 && index < gestionnaireUtilisateurs_->getNombreElements())
-		return gestionnaireUtilisateurs_->getElementParIndex(index);
+	vector<Utilisateur*> user;
+	copy(gestionnaireUtilisateurs_->getConteneur().begin()->first, gestionnaireUtilisateurs_->getConteneur().end()->first, user);
+	return user;
 }
 
 vector<Transfert*> Groupe::getTransferts() const
@@ -94,7 +94,7 @@ Groupe& Groupe::ajouterDepense(double montant, Utilisateur* payePar, const strin
 	*payePar += depense;
 
 	// Mise a jour des comptes
-	gestionnaireUtilisateurs_->mettreAJourComptes(payePar, montant);
+	gestionnaireUtilisateurs_->mettreAJourComptes(payePar, depense->getMontant());
 	return *this;
 }
 
@@ -151,7 +151,7 @@ void Groupe::equilibrerComptes() {
 		if (-min == max) {
 			count++;
 		}
-		if (count >= gestionnaireUtilisateurs_->getNombreElements()) - 1) {
+		if (count >= gestionnaireUtilisateurs_->getNombreElements() - 1) {
 			calcul = false;
 		}
 	}
@@ -170,12 +170,12 @@ ostream & operator<<(ostream& os, const Groupe& groupe)
 
 	if (groupe.transferts_.size() != 0) {
 		os << "Transferts :" << endl;
-		for (int i = 0; i < groupe.transferts_.size(); i++)
+		for (unsigned int i = 0; i < groupe.transferts_.size(); i++)
 			os << "\t" << *(groupe.transferts_[i]);
 	}
 	else {
 		os << "Les comptes ne sont pas equilibres" << endl << endl;
-		for (int i = 0; i < groupe.comptes_.size(); i++) {
+		for (unsigned int i = 0; i < groupe.comptes_.size(); i++) {
 			os << groupe.gestionnaireUtilisateurs_->getElementParIndex(i).first->getNom() << " : " << groupe.comptes_[i] << endl;
 		}
 	}
