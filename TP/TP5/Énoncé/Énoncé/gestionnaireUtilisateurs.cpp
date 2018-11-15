@@ -28,8 +28,7 @@ void GestionnaireUtilisateurs::mettreAJourComptes(Utilisateur* payePar, double m
 // Methode qui permet de verifier si un Utilisateur est bien dans le groupe.
 bool GestionnaireUtilisateurs::estExistant(Utilisateur* utilisateur) const {
 	
-	map<Utilisateur*, double>::iterator it;
-	it = find(getConteneur().begin(), getConteneur().end(), utilisateur);
+	map<Utilisateur*, double>::iterator it = getConteneur().find(utilisateur);
 	if (it != getConteneur().end())
 	{
 		return true;
@@ -41,14 +40,16 @@ bool GestionnaireUtilisateurs::estExistant(Utilisateur* utilisateur) const {
 vector<double> GestionnaireUtilisateurs::getComptes() const {
 	vector<double> compteUser;
 	map<Utilisateur*, double>::iterator end = getConteneur().end();
-	copy(getConteneur().begin(), end, compteUser);
+	for (map<Utilisateur*, double>::iterator it = getConteneur().begin(); it != end; ++it)
+	{
+		compteUser.push_back(it->second);
+	}
 	return compteUser;
 }
 
 pair<Utilisateur*, double>& GestionnaireUtilisateurs::getMax() const {
 	double valeurMax = 0;
 	pair<Utilisateur*, double> utilisateurMax;
-
 	map<Utilisateur*, double>::iterator end = getConteneur().end();
 	for (map<Utilisateur*, double>::iterator it = getConteneur().begin(); it != end; ++it)
 	{
@@ -68,7 +69,7 @@ pair<Utilisateur*, double>& GestionnaireUtilisateurs::getMin() const {
 	pair<Utilisateur*, double> utilisateurMin;
 
 	map<Utilisateur*, double>::iterator end = getConteneur().end();
-	for (map<Utilisateur*, double>::iterator it = getConteneur().begin(); it != end; ++it)
+	for (map<Utilisateur*, double>::iterator it = getConteneur().begin(); it != end; it++)
 	{
 		if (it->second < valeurMin)
 		{
@@ -81,7 +82,7 @@ pair<Utilisateur*, double>& GestionnaireUtilisateurs::getMin() const {
 
 Utilisateur* GestionnaireUtilisateurs::getUtilisateurSuivant(Utilisateur* utilisateur, double montant) const {
 	map<Utilisateur*, double>::iterator it;
-	it = find_if(getConteneur().begin(), getConteneur().end(), bind(equal_to<Utilisateur*>(), _1, utilisateur));
+	it = find_if(getConteneur().begin(), getConteneur().end(), bind(equal_to<pair<Utilisateur*, double>>(), _1, make_pair(utilisateur, montant)));
 	if (it != getConteneur().end())
 	{
 		return (it++)->first;
@@ -106,4 +107,5 @@ GestionnaireUtilisateurs& GestionnaireUtilisateurs::setCompte(pair<Utilisateur*,
 		it->second = p.second;
 		return *this;
 	}
+	return *this;
 }

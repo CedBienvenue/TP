@@ -43,7 +43,11 @@ vector<Depense*> Groupe::getDepenses() const
 vector<Utilisateur*> Groupe::getUtilisateurs() const
 {
 	vector<Utilisateur*> user;
-	copy(gestionnaireUtilisateurs_->getConteneur().begin()->first, gestionnaireUtilisateurs_->getConteneur().end()->first, user);
+	map<Utilisateur*, double> conteneur = gestionnaireUtilisateurs_->getConteneur();
+	for (map<Utilisateur*, double>::iterator it = conteneur.begin(); it != conteneur.end(); it++)
+	{
+		user.push_back(it->first);
+	}
 	return user;
 }
 
@@ -101,7 +105,32 @@ Groupe& Groupe::ajouterDepense(double montant, Utilisateur* payePar, const strin
 Groupe& Groupe::operator+=(Utilisateur* utilisateur)
 {
 	// Ajouté :
-	gestionnaireUtilisateurs_->ajouter(utilisateur);
+	UtilisateurPremium* userPremium = dynamic_cast<UtilisateurPremium*>(utilisateur);
+	UtilisateurRegulier* userRegulier = dynamic_cast<UtilisateurRegulier*>(utilisateur);
+
+	if (userPremium)
+	{
+		if (userPremium->getJoursRestants() != 0)
+		{
+			gestionnaireUtilisateurs_->ajouter(utilisateur);
+		}
+		else
+		{
+			cout << "ERREUR : L'utilisateur " << utilisateur->getNom() << " doit renouveler son abonnement premium." << endl;
+		}
+	}
+	else 
+	{
+		if (userRegulier->getPossedeGroupe() == false)
+		{
+			gestionnaireUtilisateurs_->ajouter(utilisateur);
+			userRegulier->setPossedeGroupe(true);
+		}
+		else
+		{
+			cout << "ERREUR : L'utilisateur " << utilisateur->getNom() << " n'est pas un utilisateur premium et est deja dans un groupe." << endl;
+		}
+	}
 	return *this;
 }
 

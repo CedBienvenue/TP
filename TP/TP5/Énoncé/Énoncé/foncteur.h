@@ -27,7 +27,8 @@ public:
 	//Constructeur
 	AjouterUtilisateur(map<Utilisateur*, double>& conteneur) : conteneur_(conteneur) {};
 	map<Utilisateur*, double>& operator()(Utilisateur* utilisateur) {
-		conteneur_.insert(pair<Utilisateur*, double>(utilisateur, 0));
+		conteneur_.insert(make_pair(utilisateur, 0));
+		return conteneur_;
 	}
 
 private:
