@@ -38,7 +38,7 @@ public:
 	vector<double> getComptes() const;
 	double getTotalDepenses() const;
 	vector<Depense*> getDepenses() const;
-	vector<Utilisateur*> getUtilisateurs() const;
+	map<Utilisateur*, double> getUtilisateurs() const;
 
 	// Ajouté :
 	GestionnaireUtilisateurs* getGestionnaireUtilisateurs();
@@ -62,7 +62,6 @@ private:
 	vector<Transfert*> transferts_;
 
 	// TODO : À modifier :
-	vector<double> comptes_;
 
 	// Retiré :
 	// vector<Utilisateur*> utilisateurs_;

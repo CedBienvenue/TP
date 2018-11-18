@@ -25,7 +25,7 @@ using namespace std;
 class GestionnaireUtilisateurs : public GestionnaireGenerique<Utilisateur*, map<Utilisateur*, double>, pair<Utilisateur*, double>, AjouterUtilisateur> {
 public:
 	
-	void mettreAJourComptes(Utilisateur* payePar, double montant) const;
+	void mettreAJourComptes(Utilisateur* payePar, double montant);
 	bool estExistant(Utilisateur* utilisateur) const;
 
 	// Methode d'acces

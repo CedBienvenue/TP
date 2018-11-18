@@ -11,27 +11,31 @@
 using namespace std::placeholders;
 using namespace std;
 // Methode qui permet de mettre a jour un compte Utilisateur selon le montant passe en parametre
-void GestionnaireUtilisateurs::mettreAJourComptes(Utilisateur* payePar, double montant) const {
+void GestionnaireUtilisateurs::mettreAJourComptes(Utilisateur* payePar, double montant){
 	
 	double montantReparti = montant / getNombreElements();
-	map<Utilisateur*, double>::iterator end = getConteneur().end();
-	for (map<Utilisateur*, double>::iterator it = getConteneur().begin(); it != end; ++it)
+	for (auto it = conteneur_.begin(); it != conteneur_.end(); it++)
 	{
 		if (it->first == payePar)
 		{
 			it->second += (montant - montantReparti);
 		}
-		it->second -= montantReparti;
+		else
+		{
+			it->second -= montantReparti;
+		}
 	}
 }
 
 // Methode qui permet de verifier si un Utilisateur est bien dans le groupe.
 bool GestionnaireUtilisateurs::estExistant(Utilisateur* utilisateur) const {
 	
-	map<Utilisateur*, double>::iterator it = getConteneur().find(utilisateur);
-	if (it != getConteneur().end())
+	for (auto it = conteneur_.begin(); it != conteneur_.end(); it++)
 	{
-		return true;
+		if (it->first == utilisateur)
+		{
+			return true;
+		}
 	}
 	return false;
 }
@@ -39,8 +43,7 @@ bool GestionnaireUtilisateurs::estExistant(Utilisateur* utilisateur) const {
 // Methode d'acces
 vector<double> GestionnaireUtilisateurs::getComptes() const {
 	vector<double> compteUser;
-	map<Utilisateur*, double>::iterator end = getConteneur().end();
-	for (map<Utilisateur*, double>::iterator it = getConteneur().begin(); it != end; ++it)
+	for (auto it = conteneur_.begin(); it != conteneur_.end(); it++)
 	{
 		compteUser.push_back(it->second);
 	}
@@ -48,64 +51,44 @@ vector<double> GestionnaireUtilisateurs::getComptes() const {
 }
 
 pair<Utilisateur*, double>& GestionnaireUtilisateurs::getMax() const {
-	double valeurMax = 0;
-	pair<Utilisateur*, double> utilisateurMax;
-	map<Utilisateur*, double>::iterator end = getConteneur().end();
-	for (map<Utilisateur*, double>::iterator it = getConteneur().begin(); it != end; ++it)
-	{
-		if (it->second > valeurMax)
-		{
-			valeurMax = it->second;
-			utilisateurMax = *it;
-		}
-	}
-	return utilisateurMax;
-
+	auto it = max_element(conteneur_.begin(), conteneur_.end(), 
+		[](pair<Utilisateur*, double> i, pair<Utilisateur*, double> j) -> bool {return i.second < j.second; });
+	return (pair<Utilisateur*, double>&)*it;
 }
-
-pair<Utilisateur*, double>& GestionnaireUtilisateurs::getMin() const {
 	
-	double valeurMin = 0;
-	pair<Utilisateur*, double> utilisateurMin;
-
-	map<Utilisateur*, double>::iterator end = getConteneur().end();
-	for (map<Utilisateur*, double>::iterator it = getConteneur().begin(); it != end; it++)
-	{
-		if (it->second < valeurMin)
-		{
-			valeurMin = it->second;
-			utilisateurMin = *it;
-		}
-	}
-	return utilisateurMin;
+pair<Utilisateur*, double>& GestionnaireUtilisateurs::getMin() const {
+	auto it = min_element(conteneur_.begin(), conteneur_.end(),
+		[](pair<Utilisateur*, double> i, pair<Utilisateur*, double> j) -> bool {return i.second < j.second; });
+	return (pair<Utilisateur*, double>&)*it;
 }
 
 Utilisateur* GestionnaireUtilisateurs::getUtilisateurSuivant(Utilisateur* utilisateur, double montant) const {
-	map<Utilisateur*, double>::iterator it;
-	it = find_if(getConteneur().begin(), getConteneur().end(), bind(equal_to<pair<Utilisateur*, double>>(), _1, make_pair(utilisateur, montant)));
-	if (it != getConteneur().end())
+	map<Utilisateur*, double>::const_iterator it;
+	it = find_if(conteneur_.begin(), conteneur_.end(), bind(equal_to<pair<Utilisateur*, double>>(), _1, make_pair(utilisateur, montant)));
+	if (it != conteneur_.end())
 	{
-		return (it++)->first;
+		it++;
+		return it->first;
 	}
 	return nullptr;
 }
 
 vector<pair<Utilisateur*, double>> GestionnaireUtilisateurs::getUtilisateursEntre(double borneInf, double borneSup) const {
 	vector<pair<Utilisateur*, double>> userEntre;
-	map<Utilisateur*, double>::iterator end = getConteneur().end();
-	copy_if(getConteneur().begin(), end, back_inserter(userEntre), FoncteurIntervalle(borneInf, borneSup));
+	copy_if(conteneur_.begin(), conteneur_.end(), back_inserter(userEntre), FoncteurIntervalle(borneInf, borneSup));
 	return userEntre;
 }
 
 // Methode de modification
 GestionnaireUtilisateurs& GestionnaireUtilisateurs::setCompte(pair<Utilisateur*, double> p) {
 	
-	map<Utilisateur*, double>::iterator it;
-	it = getConteneur().find(p.first);
-	if (it != getConteneur().end())
+	for (auto it = conteneur_.begin(); it != conteneur_.end(); it++)
 	{
-		it->second = p.second;
-		return *this;
+		if (it->first == p.first)
+		{
+			it->second = p.second;
+			return *this;
+		}
 	}
 	return *this;
 }

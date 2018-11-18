@@ -40,15 +40,9 @@ vector<Depense*> Groupe::getDepenses() const
 }
 
 // TODO : À modifier :
-vector<Utilisateur*> Groupe::getUtilisateurs() const
+map<Utilisateur*, double> Groupe::getUtilisateurs() const
 {
-	vector<Utilisateur*> user;
-	map<Utilisateur*, double> conteneur = gestionnaireUtilisateurs_->getConteneur();
-	for (map<Utilisateur*, double>::iterator it = conteneur.begin(); it != conteneur.end(); it++)
-	{
-		user.push_back(it->first);
-	}
-	return user;
+	return gestionnaireUtilisateurs_->getConteneur();
 }
 
 vector<Transfert*> Groupe::getTransferts() const
@@ -141,8 +135,8 @@ void Groupe::equilibrerComptes() {
 	int count = 0;
 	while (calcul) {
 		// On cherche le compte le plus eleve et le moins eleve
-		pair<Utilisateur*, double> userMax = gestionnaireUtilisateurs_->getMax();
-		pair<Utilisateur*, double> userMin = gestionnaireUtilisateurs_->getMin();
+		pair<Utilisateur*, double>& userMax = gestionnaireUtilisateurs_->getMax();
+		pair<Utilisateur*, double>& userMin = gestionnaireUtilisateurs_->getMin();
 		double max = userMax.second;
 		double min = userMin.second;
 		// On cherche lequel des deux a la dette la plus grande
@@ -171,8 +165,8 @@ void Groupe::equilibrerComptes() {
 				transferts_.push_back(transfert);
 				transfert->effectuerTransfert();
 			}
-			userMin.second = 0;
-			userMax.second += max;
+			userMin.second += max;
+			userMax.second = 0;
 		}
 
 		// On incremente le nombre de comptes mis a 0
@@ -201,12 +195,6 @@ ostream & operator<<(ostream& os, const Groupe& groupe)
 		os << "Transferts :" << endl;
 		for (unsigned int i = 0; i < groupe.transferts_.size(); i++)
 			os << "\t" << *(groupe.transferts_[i]);
-	}
-	else {
-		os << "Les comptes ne sont pas equilibres" << endl << endl;
-		for (unsigned int i = 0; i < groupe.comptes_.size(); i++) {
-			os << groupe.gestionnaireUtilisateurs_->getElementParIndex(i).first->getNom() << " : " << groupe.comptes_[i] << endl;
-		}
 	}
 
 	os << endl;

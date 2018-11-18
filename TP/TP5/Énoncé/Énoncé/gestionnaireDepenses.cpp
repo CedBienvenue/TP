@@ -7,8 +7,7 @@
 double GestionnaireDepenses::getTotalDepenses() const
 {
 	double totalDepense = 0.0;
-	vector<Depense*>::iterator end = getConteneur().end();
-	for (vector<Depense*>::iterator it = getConteneur().begin(); it != end; ++it)
+	for (auto it = conteneur_.begin(); it != conteneur_.end(); ++it)
 	{
 		totalDepense += (*it)->getMontant();
 	}

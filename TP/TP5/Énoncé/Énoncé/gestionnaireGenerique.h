@@ -10,7 +10,9 @@ template<typename T, typename C, typename D, typename FoncteurAjouter>
 class GestionnaireGenerique {
 public:
 	// Methode qui retourne le conteneur
-	C getConteneur() const { return conteneur_; }
+	C getConteneur() const{ 
+		return conteneur_; 
+	}
 
 	// Methode qui ajoute un element dans le conteneur
 	void ajouter(T t) {
