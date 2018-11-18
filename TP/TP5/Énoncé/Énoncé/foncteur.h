@@ -1,7 +1,9 @@
 /********************************************
+*
 * Titre: Travail pratique #5 - foncteur.h
-* Date: 4 novembre 2018
-* Auteur: Ryan Hardie
+* Date: 18 Novembre 2018
+* Auteur: Cédrik Bienvenue (1894296) & Mohamed Khairallah Gharbi (1837067)
+*
 *******************************************/
 #ifndef FONCTEUR_H
 #define FONCTEUR_H

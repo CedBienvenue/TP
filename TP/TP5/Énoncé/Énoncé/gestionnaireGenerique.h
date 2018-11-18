@@ -1,7 +1,9 @@
 /********************************************
+*
 * Titre: Travail pratique #5 - gestionnaireGenerique.h
-* Date: 4 novembre 2018
-* Auteur: Ryan Hardie
+* Date: 18 Novembre 2018
+* Auteur: Cédrik Bienvenue (1894296) & Mohamed Khairallah Gharbi (1837067)
+*
 *******************************************/
 #ifndef GESTIONNAIREGENERIQUE_H
 #define GESTIONNAIREGENERIQUE_H

@@ -1,9 +1,10 @@
-	/********************************************
-* Titre: Travail pratique #5 - gestionnaireUtilisateurs.cpp
-* Date: 4 novembre 2018
-* Auteur: Ryan Hardie
+/********************************************
+*
+* Titre: Travail pratique #5 - gestionnaireUtilisteurs.cpp
+* Date: 18 Novembre 2018
+* Auteur: Cédrik Bienvenue (1894296) & Mohamed Khairallah Gharbi (1837067)
+*
 *******************************************/
-
 #include "gestionnaireUtilisateurs.h"
 #include "utilisateurPremium.h"
 #include "utilisateurRegulier.h"
@@ -53,6 +54,7 @@ vector<double> GestionnaireUtilisateurs::getComptes() const {
 pair<Utilisateur*, double>& GestionnaireUtilisateurs::getMax() const {
 	auto it = max_element(conteneur_.begin(), conteneur_.end(), 
 		[](pair<Utilisateur*, double> i, pair<Utilisateur*, double> j) -> bool {return i.second < j.second; });
+
 	return (pair<Utilisateur*, double>&)*it;
 }
 	
@@ -62,6 +64,7 @@ pair<Utilisateur*, double>& GestionnaireUtilisateurs::getMin() const {
 	return (pair<Utilisateur*, double>&)*it;
 }
 
+// Methode qui retourne l'utilisateur suivant selon celui passe en parametre.
 Utilisateur* GestionnaireUtilisateurs::getUtilisateurSuivant(Utilisateur* utilisateur, double montant) const {
 	map<Utilisateur*, double>::const_iterator it;
 	it = find_if(conteneur_.begin(), conteneur_.end(), bind(equal_to<pair<Utilisateur*, double>>(), _1, make_pair(utilisateur, montant)));
@@ -73,6 +76,7 @@ Utilisateur* GestionnaireUtilisateurs::getUtilisateurSuivant(Utilisateur* utilis
 	return nullptr;
 }
 
+// Methode qui retourne un ensemble d'utilisateur selon des bornes superieur et inferieur.
 vector<pair<Utilisateur*, double>> GestionnaireUtilisateurs::getUtilisateursEntre(double borneInf, double borneSup) const {
 	vector<pair<Utilisateur*, double>> userEntre;
 	copy_if(conteneur_.begin(), conteneur_.end(), back_inserter(userEntre), FoncteurIntervalle(borneInf, borneSup));

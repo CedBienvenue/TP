@@ -1,7 +1,9 @@
 /********************************************
+*
 * Titre: Travail pratique #5 - groupe.cpp
-* Date: 4 novembre 2018
-* Auteur: Ryan Hardie
+* Date: 18 Novembre 2018
+* Auteur: Cédrik Bienvenue (1894296) & Mohamed Khairallah Gharbi (1837067)
+*
 *******************************************/
 
 #include "groupe.h"
@@ -102,6 +104,7 @@ Groupe& Groupe::operator+=(Utilisateur* utilisateur)
 	UtilisateurPremium* userPremium = dynamic_cast<UtilisateurPremium*>(utilisateur);
 	UtilisateurRegulier* userRegulier = dynamic_cast<UtilisateurRegulier*>(utilisateur);
 
+	// Verification si l'utilisateur est regulier ou premium
 	if (userPremium)
 	{
 		if (userPremium->getJoursRestants() != 0)
@@ -196,7 +199,6 @@ ostream & operator<<(ostream& os, const Groupe& groupe)
 		for (unsigned int i = 0; i < groupe.transferts_.size(); i++)
 			os << "\t" << *(groupe.transferts_[i]);
 	}
-
 	os << endl;
 	return os;
 }

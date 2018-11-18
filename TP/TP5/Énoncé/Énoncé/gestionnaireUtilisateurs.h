@@ -1,9 +1,10 @@
 /********************************************
-* Titre: Travail pratique #5 - gestionnaireUtilisateurs.h
-* Date: 4 novembre 2018
-* Auteur: Ryan Hardie
+*
+* Titre: Travail pratique #5 - gestionnaireDepenses.h
+* Date: 18 Novembre 2018
+* Auteur: Cédrik Bienvenue (1894296) & Mohamed Khairallah Gharbi (1837067)
+*
 *******************************************/
-
 #ifndef GESTIONNAIREUTILISATEURS_H
 #define GESTIONNAIREUTILISATEURS_H
 
