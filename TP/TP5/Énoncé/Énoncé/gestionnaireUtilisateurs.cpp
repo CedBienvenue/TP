@@ -2,7 +2,7 @@
 *
 * Titre: Travail pratique #5 - gestionnaireUtilisteurs.cpp
 * Date: 18 Novembre 2018
-* Auteur: Cédrik Bienvenue (1894296) & Mohamed Khairallah Gharbi (1837067)
+* Auteur: Cï¿½drik Bienvenue (1894296) & Mohamed Khairallah Gharbi (1837067)
 *
 *******************************************/
 #include "gestionnaireUtilisateurs.h"
@@ -54,7 +54,6 @@ vector<double> GestionnaireUtilisateurs::getComptes() const {
 pair<Utilisateur*, double>& GestionnaireUtilisateurs::getMax() const {
 	auto it = max_element(conteneur_.begin(), conteneur_.end(), 
 		[](pair<Utilisateur*, double> i, pair<Utilisateur*, double> j) -> bool {return i.second < j.second; });
-
 	return (pair<Utilisateur*, double>&)*it;
 }
 	

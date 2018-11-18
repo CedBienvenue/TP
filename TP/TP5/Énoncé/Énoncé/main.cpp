@@ -1,3 +1,12 @@
+/*
+	Fichier : main.cpp
+
+	Fait par :  Cedrik Bienvenue (1894296)
+				Mohamed Khairallah Gharbi (1837067)
+	Date de derniere modification : 18 novembre 2018
+*/
+
+
 /********************************************
 * Titre: Travail pratique #5 - main.cpp
 * Date: 4 nonvembre 2018

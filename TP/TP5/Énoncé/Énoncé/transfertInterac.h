@@ -1,3 +1,11 @@
+/*
+	Fichier : transfertInterac.h
+
+	Fait par :  Cedrik Bienvenue (1894296)
+				Mohamed Khairallah Gharbi (1837067)
+	Date de derniere modification : 18 novembre 2018
+*/
+
 /********************************************
 * Titre: Travail pratique #4 - tranfertInterac.h
 * Date: 19 octobre 2018
